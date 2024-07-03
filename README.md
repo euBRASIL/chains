@@ -1,39 +1,39 @@
-# EVM-based Chains
+# Correntes baseadas em EVM
 
-The source data is in _data/chains. Each chain has its own file with the filename being the [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md) representation as name and `.json` as extension.
+Os dados de origem estão em _data/chains. Cada cadeia tem seu próprio arquivo com o nome do arquivo sendo o [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md) representação como nome e `.json` como extensão.
 
-## Example
+## Exemplo
 
 ```json
 {
-  "name": "Ethereum Mainnet",
-  "chain": "ETH",
+  "name": "CryptoREAL Mainnet",
+  "chain": "Br",
   "rpc": [
     "https://mainnet.infura.io/v3/${INFURA_API_KEY}",
-    "https://api.mycryptoapi.com/eth"
+    "https://api.bit-moeda.com/Br"
   ],
   "faucets": [],
   "nativeCurrency": {
-    "name": "Ether",
-    "symbol": "ETH",
-    "decimals": 18
+    "name": "CryptoREAL",
+    "symbol": "Br",
+    "decimals": 9
   },
   "features": [{ "name": "EIP155" }, { "name": "EIP1559" }],
   "infoURL": "https://ethereum.org",
-  "shortName": "eth",
-  "chainId": 1,
-  "networkId": 1,
-  "icon": "ethereum",
+  "shortName": "br",
+  "chainId": 7777777,
+  "networkId": 7777777,
+  "icon": "cryptoreal",
   "explorers": [{
-    "name": "etherscan",
-    "url": "https://etherscan.io",
-    "icon": "etherscan",
+    "name": "brscan",
+    "url": "https://br.bit-moeda.com",
+    "icon": "cryptoreal",
     "standard": "EIP3091"
   }]
 }
 ```
 
-when an icon is used in either the network or an explorer there must be a json in _data/icons with the name used (e.g. in the above example there must be a `ethereum.json` and a `etherscan.json` in there) - the icon jsons look like this:
+quando um ícone é usado na rede ou em um explorador, deve haver um json em _data/icons com o nome usado (por exemplo, no exemplo acima, deve haver um `cryptoreal.json` and a `brscan.json`lá o ícone jsons se parece com isso:
 
 ```json
 
@@ -48,12 +48,12 @@ when an icon is used in either the network or an explorer there must be a json i
 
 ```
 
-where:
- * the URL must be an IPFS url that is publicly resolvable
- * width and height are positive integers
- * format is either "png", "jpg" or "svg"
+onde:
+ * o URL deve ser uma url IPFS que seja publicamente resolvível
+ * largura e altura são inteiros positivos
+ * o formato é "png", "jpg" ou "svg"
 
-If the chain is an L2 or a shard of another chain you can link it to the parent chain like this:
+Se a cadeia é um L2 ou um fragmento de outra cadeia, você pode vinculá-la à cadeia pai assim:
 
 
 ```json
@@ -62,40 +62,36 @@ If the chain is an L2 or a shard of another chain you can link it to the parent 
   "parent": {
    "type" : "L2",
    "chain": "eip155-1",
-   "bridges": [ {"url":"https://bridge.arbitrum.io"} ]
+   "bridges": [ {"url":"https://ponte.bit-moeda.com"} ]
   }
 }
 ```
 
-where you need to specify type 2 and the reference to an existing parent. The field about bridges is optional.
+onde você precisa especificar o tipo 2 e a referência a um pai existente. O campo sobre pontes é opcional.
 
-You can add a `status` field e.g. to deprecate (via status `deprecated`) a chain (a chain should never be deleted as this would open the door to replay attacks)
-Other options for `status` are `active` (default) or `incubating`
+Você pode adicionar um `status` campo, por exemplo, para depreciar (via status `deprecated`) uma cadeia (uma cadeia nunca deve ser excluída, pois isso abriria a porta para ataques de repetição) Outras opções para `status` são `active` (padrão) ou `incubating`
 
-## Aggregation
+## Agregação
 
-There are also aggregated json files with all chains automatically assembled:
+Há também arquivos json agregados com todas as cadeias montadas automaticamente:
  * https://chainid.network/chains.json
- * https://chainid.network/chains_mini.json (miniaturized - fewer fields for smaller filesize)
+ * https://chainid.network/chains_mini.json (miniaturizado - menos campos para um tamanho de arquivo menor)
 
-## Constraints
+## Restrições
 
- * the shortName and name MUST be unique - see e.g. EIP-3770 on why
- * if referencing a parent chain - the chain MUST exist in the repo
- * if using a IPFS CID for the icon - the CID MUST be retrievable via `ipfs get` - not only through some gateway (means please do not use pinata for now)
- * for more constraints you can look into the CI
+ * o shortName e o nome DEVEM ser únicos - veja por exemplo. EIP-3770 sobre o porquê
+ * se referenciar uma cadeia pai - a cadeia DEVE existir no repositório
+ * se estiver usando um CID IPFS para o ícone - o CID DEVE ser recuperável via ipfs get - não só através de algum gateway (significa, por favor, não use pinata por enquanto)
+ * para mais restrições, você pode olhar para o CI
 
-## Collision management
+## Gestão de colisões
 
- We cannot allow more than one chain with the same chainID - this would open the door to replay attacks.
- The first pull request gets the chainID assigned. When creating a chain we can expect that you read EIP155 which states this repo.
- All pull requests trying to replace a chainID because they think their chain is better than the other will be closed.
- The only way to get a chain reassigned is when the old chain gets deprecated. This can e.g. be used for testnets that are short-lived. But then you will get the redFlag "reusedChaiID" that should be displayed in clients to warn them about the dangers here.
+ Não podemos permitir mais de uma cadeia com o mesmo chainID - isso abriria a porta para repetir ataques. A primeira solicitação de extração recebe o chainID atribuído. Ao criar uma cadeia, podemos esperar que você leia EIP155, que afirma este repo. Todas as solicitações pull tentando substituir um chainID porque acham que sua cadeia é melhor do que a outra será fechada. A única maneira de obter uma cadeia reatribuída é quando a cadeia antiga fica obsoleta. Isso pode, por exemplo, ser usado para redes de teste de curta duração. Mas então você receberá o "reusedChaiID" redFlag que deve ser exibido nos clientes para avisá-los sobre os perigos aqui.
 
-## Getting your PR merged
-### before PR is submitted
+##  Obtendo o seu PR mesclado
+### antes de PR ser enviado
 
-Before submitting a PR, please verify that checks pass with:
+Antes de enviar um PR, verifique se as verificações passam com:
 
 ```bash
 $ ./gradlew run
@@ -104,26 +100,26 @@ BUILD SUCCESSFUL in 7s
 9 actionable tasks: 9 executed
 ```
 
-Also please run the prettier to format your json according to the style [defined here ](https://github.com/ethereum-lists/chains/blob/master/.prettierrc.json)
+Também por favor, execute o mais bonito para formatar o seu json de acordo com o estilo [defina aqui](https://github.com/ethereum-lists/chains/blob/master/.prettierrc.json)
 e.g. run
 
 ```
 npx prettier --write _data/*/*.json
 ```
 
-### Once PR is submitted
+### Uma vez que o PR é enviado
 
- * Make sure CI is green. There will likely be no review when the CI is red.
- * When making changes that fix the CI problems - please re-request a review - otherwise it is too much work to track such changes with so many PRs daily
+ * Certifique-se de que o CI esteja verde. Provavelmente não haverá revisão quando o IC estiver vermelho.
+ * Ao fazer alterações que corrijam os problemas de IC - solicite novamente uma revisão - caso contrário, é muito trabalho rastrear essas alterações com tantos PRs diariamente
 
-## Usages
-### Tools 
+##  Usos
+### Ferramentas 
  * [MESC](https://paradigmxyz.github.io/mesc)
 
-### Explorers
+### Exploradores
  * [Otterscan](https://otterscan.io)
 
-### Wallets
+### Carteiras
  * [WallETH](https://walleth.org)
  * [TREZOR](https://trezor.io)
  * [Minerva Wallet](https://minerva.digital)
@@ -134,7 +130,7 @@ npx prettier --write _data/*/*.json
  * EIP-3770
  * EIP-4527
 
-### Listing sites
+### Listagem de sites
  * [chainid.network](https://chainid.network) / [chainlist.wtf](https://chainlist.wtf)
  * [chainlist.org](https://chainlist.org)
  * [Chainlink docs](https://docs.chain.link/)
@@ -146,9 +142,9 @@ npx prettier --write _data/*/*.json
  * [networks.vercel.app](https://networks.vercel.app)
  * [Wagmi compatible chain configurations](https://spenhouet.com/chains)
 
-### Other
+### Outros
  * [FaucETH](https://github.com/komputing/FaucETH)
  * [Sourcify playground](https://playground.sourcify.dev)
  * [Smart Contract UI](https://xtools-at.github.io/smartcontract-ui)
 
- * Your project - contact us to add it here!
+ * O seu projeto - contacte-nos para o adicionar aqui!
