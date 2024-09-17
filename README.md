@@ -9,24 +9,24 @@ Os dados de origem estão em _data/chains. Cada cadeia tem seu próprio arquivo 
   "name": "CryptoREAL Mainnet",
   "chain": "Br",
   "rpc": [
-    "https://mainnet.infura.io/v3/${INFURA_API_KEY}",
-    "https://api.bit-moeda.com/Br"
+    "https://mainnet.infura.io/v3/020dd61697b247e2b4645a08ddfbf032",
+    "https://api.bit-moeda.com"
   ],
   "faucets": [],
   "nativeCurrency": {
     "name": "CryptoREAL",
-    "symbol": "Br",
+    "symbol": "Br$",
     "decimals": 9
   },
   "features": [{ "name": "EIP155" }, { "name": "EIP1559" }],
-  "infoURL": "https://ethereum.org",
-  "shortName": "br",
+  "infoURL": "https://bit-moeda.readthedocs.io/pt/latest/",
+  "shortName": "Br",
   "chainId": 7777777,
   "networkId": 7777777,
   "icon": "cryptoreal",
   "explorers": [{
     "name": "brscan",
-    "url": "https://br.bit-moeda.com",
+    "url": "https://bloco.bit-moeda.com",
     "icon": "cryptoreal",
     "standard": "EIP3091"
   }]
